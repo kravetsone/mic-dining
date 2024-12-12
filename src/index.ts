@@ -1,29 +1,24 @@
-import { autoRetry } from "@gramio/auto-retry";
 import { autoload } from "@gramio/autoload";
-import { scenes } from "@gramio/scenes";
-import { session } from "@gramio/session";
-import { redisStorage } from "@gramio/storage-redis";
 import { Bot } from "gramio";
-import { greetingScene } from "./scenes/greeting";
-import { i18n } from "./shared/locales/index";
+import { authPlugin } from "plugins/auth.js";
 
-const storage = redisStorage({
-	host: process.env.REDIS_HOST,
-});
-
-const bot = new Bot(process.env.TOKEN as string)
-	.extend(autoRetry())
-	.extend(session())
-	.extend(
-		scenes([greetingScene], {
-			storage,
-		}),
-	)
-	.extend(autoload())
-	.derive("message", (context) => ({
-		t: i18n.buildT(context.from?.languageCode ?? "en"),
-	}))
+const bot = new Bot(process.env.BOT_TOKEN as string)
+	.extend(authPlugin)
+	.extend(await autoload())
 	.onStart(({ info }) => console.log(`✨ Bot ${info.username} was started!`));
 
-bot.start();
 export type BotType = typeof bot;
+
+await bot.start();
+
+// .extend(autoRetry())
+// .extend(session())
+// .extend(
+// 	scenes([], {
+// 		storage,
+// 	}),
+// )
+
+// .derive("message", (context) => ({
+// 	t: i18n.buildT(context.from?.languageCode ?? "en"),
+// }))

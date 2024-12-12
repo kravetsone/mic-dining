@@ -1,0 +1,18 @@
+services:
+    postgres:
+        container_name: mic-dining-postgres
+        image: postgres:latest
+        restart: unless-stopped
+        environment:
+            - POSTGRES_USER=mic-dining
+            - POSTGRES_PASSWORD=superhardpass
+            - POSTGRES_DB=mic-dining
+        ports:
+            - 5432:5432
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+volumes:
+    postgres_data:
+
+networks:
+    default: {}
