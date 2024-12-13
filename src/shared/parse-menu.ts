@@ -1,6 +1,6 @@
 import { db } from "db/index.js";
 import { menuTable, usersTable } from "db/schema.js";
-import { inArray } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { DateTime } from "luxon";
 import { MIC_BASE_URL, config } from "../config.js";
 import type { MenuDateParsed, MenuMicResponse } from "../types.js";
@@ -61,7 +61,8 @@ export async function parseMenu() {
 		.select({
 			id: usersTable.id,
 		})
-		.from(usersTable);
+		.from(usersTable)
+		.where(eq(usersTable.isNotificationEnabled, true));
 
 	for (const difference of differences) {
 		await broadcast.start(

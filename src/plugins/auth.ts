@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { Plugin } from "gramio";
 
 export const authPlugin = new Plugin("auth").derive(
-	"message",
+	["message", "callback_query"],
 	async (context) => {
 		const tgId = context.from?.id!;
 
