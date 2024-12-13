@@ -1,6 +1,6 @@
 import { autoload } from "@gramio/autoload";
 import { Bot } from "gramio";
-import { authPlugin } from "plugins/auth.js";
+import { authPlugin } from "./plugins/auth.js";
 
 const bot = new Bot(process.env.BOT_TOKEN as string)
 	.extend(authPlugin)
