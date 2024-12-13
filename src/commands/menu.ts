@@ -14,8 +14,12 @@ export default (bot: BotType) =>
 				date: menuTable.date,
 				imageURL: menuTable.imageURL,
 
-				previousDate: sql<string | null>`LAG(${menuTable.date}) OVER()`,
-				nextDate: sql<string | null>`LEAD(${menuTable.date}) OVER()`,
+				previousDate: sql<
+					string | null
+				>`LAG(${menuTable.date}) OVER(ORDER BY ${menuTable.date})`,
+				nextDate: sql<
+					string | null
+				>`LEAD(${menuTable.date}) OVER(ORDER BY ${menuTable.date})`,
 			})
 			.from(menuTable)
 			.orderBy(
