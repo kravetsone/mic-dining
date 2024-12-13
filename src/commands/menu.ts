@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import { code, format } from "gramio";
 import { DateTime } from "luxon";
 import { getDatePaginateKeyboard } from "shared/keyboards/index.js";
+import { t } from "shared/locales/index.js";
 import { db } from "../db/index.js";
 import { menuTable } from "../db/schema.js";
 import type { BotType } from "../index.js";
@@ -38,7 +39,7 @@ export default (bot: BotType) =>
 		const date = DateTime.fromSQL(menu.date);
 
 		return context.sendPhoto(menu.imageURL, {
-			caption: format`Меню на ${code(date.toFormat("dd.MM.yyyy"))}`,
+			caption: t("selectedMenu", date.toFormat("dd.MM.yyyy")),
 			reply_markup: getDatePaginateKeyboard(menu.previousDate, menu.nextDate),
 		});
 	});

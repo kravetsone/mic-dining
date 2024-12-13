@@ -1,11 +1,11 @@
 import { defineI18n } from "@gramio/i18n";
-import { en } from "./en";
-import { ru } from "./ru";
+import { ru } from "./ru.js";
 
 export const i18n = defineI18n({
-	primaryLanguage: "en",
+	primaryLanguage: "ru",
 	languages: {
-		en,
 		ru,
 	},
 });
+
+export const t = i18n.buildT("ru");

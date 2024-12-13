@@ -1,7 +1,8 @@
-import type { ShouldFollowLanguage } from "@gramio/i18n";
-import { bold, format } from "gramio";
-import type { en } from "./en";
+import type { LanguageMap, ShouldFollowLanguage } from "@gramio/i18n";
+import { bold, code, format } from "gramio";
 
 export const ru = {
-	greeting: (name: string) => format`Привет, ${bold(name)}!`,
-} satisfies ShouldFollowLanguage<typeof en>;
+	selectedMenu: (date: string) => format`Меню на ${code(date)}`,
+
+	menuUpdated: (date: string) => format`Появилось меню на ${code(date)}!`,
+} satisfies LanguageMap;
