@@ -11,6 +11,7 @@
 		"studio": "bun x drizzle-kit studio"
 	},
 	"dependencies": {
+		"@gramio/auto-answer-callback-query": "^0.0.2",
 		"@gramio/auto-retry": "^0.0.3",
 		"@gramio/autoload": "^1.1.0",
 		"@gramio/broadcast": "^0.0.1",

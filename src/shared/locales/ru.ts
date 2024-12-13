@@ -5,4 +5,14 @@ export const ru = {
 	selectedMenu: (date: string) => format`Меню на ${code(date)}`,
 
 	menuUpdated: (date: string) => format`Появилось меню на ${code(date)}!`,
+
+	selectGroup: {
+		firstTip: format`Напишите название группы в формате ${code`ИСП-4-21`}`,
+		notFound: format`Кажется, что такой группы не существует... Попробуй свериться с официальным списком и ввести в формате ${code`ИСП-4-21`}`,
+		selected: (group: string) => format`Группа ${bold(group)} успешно выбрана!`,
+	},
+
+	settings: {
+		text: (group: string | null) => format`Группа: ${group ?? "не выбрана"}`,
+	},
 } satisfies LanguageMap;
