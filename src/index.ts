@@ -2,7 +2,7 @@ import { autoload } from "@gramio/autoload";
 import { Bot } from "gramio";
 import { authPlugin } from "./plugins/auth.js";
 
-const bot = new Bot(process.env.BOT_TOKEN as string)
+export const bot = new Bot(process.env.BOT_TOKEN as string)
 	.extend(authPlugin)
 	.extend(await autoload())
 	.onStart(({ info }) => console.log(`✨ Bot ${info.username} was started!`));

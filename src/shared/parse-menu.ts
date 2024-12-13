@@ -1,9 +1,10 @@
 import { db } from "db/index.js";
-import { menuTable } from "db/schema.js";
+import { menuTable, usersTable } from "db/schema.js";
 import { inArray } from "drizzle-orm";
 import { DateTime } from "luxon";
 import { MIC_BASE_URL, config } from "../config.js";
 import type { MenuDateParsed, MenuMicResponse } from "../types.js";
+import { broadcast } from "./broadcast.js";
 import { findDifference } from "./helpers.js";
 
 export async function parseMenu() {
@@ -40,21 +41,36 @@ export async function parseMenu() {
 			),
 		);
 
-	const difference = findDifference(
+	const differences = findDifference(
 		results,
 		existsMenus.map((x) => ({ ...x, date: DateTime.fromSQL(x.date) })),
 	);
 
-	console.log(difference);
+	console.log(differences);
 
-	if (!difference.length) return;
+	if (!differences.length) return;
 
 	await db.insert(menuTable).values(
-		difference.map((x) => ({
+		differences.map((x) => ({
 			date: x.date.toSQLDate()!,
 			imageURL: x.imageURL,
 		})),
 	);
+
+	const users = await db.select().from(usersTable);
+
+	for (const difference of differences) {
+		await broadcast.start(
+			"menu-updated",
+			users.map((x) => [
+				{
+					chatId: x.id,
+					photo: difference.imageURL,
+					date: difference.date.toFormat("dd.MM.yyyy"),
+				},
+			]),
+		);
+	}
 }
 
 parseMenu();

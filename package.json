@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@gramio/auto-retry": "^0.0.3",
 		"@gramio/autoload": "^1.1.0",
+		"@gramio/broadcast": "^0.0.1",
 		"@gramio/i18n": "^1.0.4",
 		"@gramio/scenes": "^0.0.5",
 		"@gramio/session": "^0.1.5",
@@ -21,7 +22,7 @@
 		"env-var": "^7.5.0",
 		"gramio": "^0.1.2",
 		"ioredis": "^5.4.1",
-		"jobify": "^0.1.0",
+		"jobify": "^0.1.6",
 		"luxon": "^3.5.0",
 		"postgres": "^3.4.5"
 	},
