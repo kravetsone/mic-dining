@@ -1,11 +1,11 @@
-import { takeFirstOrThrow } from "db/utils.js";
-import { sql } from "drizzle-orm";
+import { takeFirstOrThrow, takeFirstOrUndefined } from "db/utils.js";
+import { and, eq, sql } from "drizzle-orm";
 import { code, format } from "gramio";
 import { DateTime } from "luxon";
 import { getDatePaginateKeyboard } from "shared/keyboards/index.js";
 import { t } from "shared/locales/index.js";
 import { db } from "../db/index.js";
-import { menuTable } from "../db/schema.js";
+import { groupDiningTimesTable, menuTable } from "../db/schema.js";
 import type { BotType } from "../index.js";
 
 export default (bot: BotType) =>
@@ -36,10 +36,26 @@ export default (bot: BotType) =>
 
 		console.log(menu);
 
+		const time = context.user.groupId
+			? await db
+					.select({
+						startTime: groupDiningTimesTable.startTime,
+						endTime: groupDiningTimesTable.endTime,
+					})
+					.from(groupDiningTimesTable)
+					.where(
+						and(
+							eq(groupDiningTimesTable.groupId, context.user.groupId),
+							eq(groupDiningTimesTable.date, menu.date),
+						),
+					)
+					.then(takeFirstOrUndefined)
+			: undefined;
+
 		const date = DateTime.fromSQL(menu.date);
 
 		return context.sendPhoto(menu.imageURL, {
-			caption: t("selectedMenu", date.toFormat("dd.MM.yyyy")),
+			caption: t("selectedMenu", date.toFormat("dd.MM.yyyy"), time, context.user.groupId),
 			reply_markup: getDatePaginateKeyboard(menu.previousDate, menu.nextDate),
 		});
 	});

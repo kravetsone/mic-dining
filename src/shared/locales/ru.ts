@@ -2,7 +2,13 @@ import type { LanguageMap, ShouldFollowLanguage } from "@gramio/i18n";
 import { bold, code, format } from "gramio";
 
 export const ru = {
-	selectedMenu: (date: string) => format`Меню на ${code(date)}`,
+	selectedMenu: (
+		date: string,
+		time: { startTime: string; endTime: string } | undefined,
+		group: string | null,
+	) => format`Меню на ${code(date)}
+	
+	${time && group ? format`Время обеда группы ${code(group)}: ${bold(time.startTime.slice(0, 5))} - ${bold(time.endTime.slice(0, 5))}` : ""}`,
 
 	menuUpdated: (date: string) => format`Появилось меню на ${code(date)}!`,
 

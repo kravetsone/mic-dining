@@ -1,10 +1,11 @@
 import { db } from "db/index.js";
-import { menuTable } from "db/schema.js";
-import { takeFirstOrThrow } from "db/utils.js";
-import { eq, sql } from "drizzle-orm";
+import { groupDiningTimesTable, menuTable } from "db/schema.js";
+import { takeFirstOrThrow, takeFirstOrUndefined } from "db/utils.js";
+import { and, eq, sql } from "drizzle-orm";
 import { MediaInput, code, format } from "gramio";
 import { DateTime } from "luxon";
 import { getDatePaginateKeyboard } from "shared/keyboards/index.js";
+import { t } from "shared/locales/index.js";
 import type { BotType } from "../index.js";
 import { selectDate } from "../shared/callback-data/index.js";
 
@@ -37,9 +38,30 @@ export default (bot: BotType) =>
 
 		const date = DateTime.fromSQL(menu.date);
 
+		const time = context.user.groupId
+			? await db
+					.select({
+						startTime: groupDiningTimesTable.startTime,
+						endTime: groupDiningTimesTable.endTime,
+					})
+					.from(groupDiningTimesTable)
+					.where(
+						and(
+							eq(groupDiningTimesTable.groupId, context.user.groupId),
+							eq(groupDiningTimesTable.date, menu.date),
+						),
+					)
+					.then(takeFirstOrUndefined)
+			: undefined;
+
 		return context.editMedia(
 			MediaInput.photo(menu.imageURL, {
-				caption: format`Меню на ${code(date.toFormat("dd.MM.yyyy"))}`,
+				caption: t(
+					"selectedMenu",
+					date.toFormat("dd.MM.yyyy"),
+					time,
+					context.user.groupId,
+				),
 			}),
 			{
 				reply_markup: getDatePaginateKeyboard(menu.previousDate, menu.nextDate),
