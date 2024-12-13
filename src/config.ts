@@ -7,4 +7,6 @@ export const config = {
 		.get("MIC_DINING_INFO_URL")
 		.default(`${MIC_BASE_URL}/v1/api/folder_and_file/list/30130`)
 		.asString(),
+
+	REDIS_HOST: env.get("REDIS_HOST").default("localhost").asString(),
 };
