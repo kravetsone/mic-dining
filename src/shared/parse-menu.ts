@@ -57,7 +57,11 @@ export async function parseMenu() {
 		})),
 	);
 
-	const users = await db.select().from(usersTable);
+	const users = await db
+		.select({
+			id: usersTable.id,
+		})
+		.from(usersTable);
 
 	for (const difference of differences) {
 		await broadcast.start(
