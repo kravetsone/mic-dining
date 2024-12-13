@@ -1,9 +1,9 @@
 import { Scene } from "@gramio/scenes";
-import { db } from "db/index.js";
-import { groupsTable, usersTable } from "db/schema.js";
 import { eq } from "drizzle-orm";
-import { cancelKeyboard } from "shared/keyboards/index.js";
-import { t } from "shared/locales/index.js";
+import { db } from "../db/index.js";
+import { groupsTable, usersTable } from "../db/schema.js";
+import { cancelKeyboard } from "../shared/keyboards/index.js";
+import { t } from "../shared/locales/index.js";
 
 export const selectGroupScene = new Scene("select-group").step(
 	["callback_query", "message"],

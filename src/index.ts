@@ -3,9 +3,9 @@ import { autoload } from "@gramio/autoload";
 import { scenes } from "@gramio/scenes";
 import { redisStorage } from "@gramio/storage-redis";
 import { Bot } from "gramio";
-import { redis } from "jobs/index.js";
-import { selectGroupScene } from "scenes/select-group.js";
+import { redis } from "./jobs/index.js";
 import { authPlugin } from "./plugins/auth.js";
+import { selectGroupScene } from "./scenes/select-group.js";
 
 const storage = redisStorage(redis);
 

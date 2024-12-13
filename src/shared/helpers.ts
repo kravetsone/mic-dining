@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import type { MenuDateParsed } from "types.js";
+import type { MenuDateParsed } from "../types.js";
 
 export function toDateSet(array: MenuDateParsed[]) {
 	return new Set(array.map((item) => item.date.toISODate()));

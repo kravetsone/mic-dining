@@ -1,7 +1,6 @@
-import { InlineKeyboard, Keyboard } from "gramio";
-import { mainKeyboard } from "shared/keyboards/index.js";
-import { parseMenu } from "shared/parse-menu.js";
 import type { BotType } from "../index.js";
+import { mainKeyboard } from "../shared/keyboards/index.js";
+import { parseMenu } from "../shared/parse-menu.js";
 
 export default (bot: BotType) =>
 	bot

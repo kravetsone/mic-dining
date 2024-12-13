@@ -1,12 +1,12 @@
-import { takeFirstOrThrow, takeFirstOrUndefined } from "db/utils.js";
 import { and, eq, sql } from "drizzle-orm";
 import { code, format } from "gramio";
 import { DateTime } from "luxon";
-import { getDatePaginateKeyboard } from "shared/keyboards/index.js";
-import { t } from "shared/locales/index.js";
 import { db } from "../db/index.js";
 import { groupDiningTimesTable, menuTable } from "../db/schema.js";
+import { takeFirstOrThrow, takeFirstOrUndefined } from "../db/utils.js";
 import type { BotType } from "../index.js";
+import { getDatePaginateKeyboard } from "../shared/keyboards/index.js";
+import { t } from "../shared/locales/index.js";
 
 export default (bot: BotType) =>
 	bot.hears("Меню", async (context) => {
@@ -55,7 +55,12 @@ export default (bot: BotType) =>
 		const date = DateTime.fromSQL(menu.date);
 
 		return context.sendPhoto(menu.imageURL, {
-			caption: t("selectedMenu", date.toFormat("dd.MM.yyyy"), time, context.user.groupId),
+			caption: t(
+				"selectedMenu",
+				date.toFormat("dd.MM.yyyy"),
+				time,
+				context.user.groupId,
+			),
 			reply_markup: getDatePaginateKeyboard(menu.previousDate, menu.nextDate),
 		});
 	});

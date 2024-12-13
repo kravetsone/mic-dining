@@ -1,11 +1,11 @@
-import { db } from "db/index.js";
-import { usersTable } from "db/schema.js";
-import { takeFirst, takeFirstOrThrow } from "db/utils.js";
 import { sql } from "drizzle-orm";
-import { selectGroupScene } from "scenes/select-group.js";
-import { getSettingsKeyboard } from "shared/keyboards/index.js";
-import { t } from "shared/locales/index.js";
+import { db } from "../db/index.js";
+import { usersTable } from "../db/schema.js";
+import { takeFirstOrThrow } from "../db/utils.js";
 import type { BotType } from "../index.js";
+import { selectGroupScene } from "../scenes/select-group.js";
+import { getSettingsKeyboard } from "../shared/keyboards/index.js";
+import { t } from "../shared/locales/index.js";
 
 export default (bot: BotType) =>
 	bot

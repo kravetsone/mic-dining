@@ -1,8 +1,8 @@
-import { db } from "db/index.js";
-import { menuTable, usersTable } from "db/schema.js";
 import { eq, inArray } from "drizzle-orm";
 import { DateTime } from "luxon";
 import { MIC_BASE_URL, config } from "../config.js";
+import { db } from "../db/index.js";
+import { menuTable, usersTable } from "../db/schema.js";
 import type { MenuDateParsed, MenuMicResponse } from "../types.js";
 import { broadcast } from "./broadcast.js";
 import { findDifference } from "./helpers.js";

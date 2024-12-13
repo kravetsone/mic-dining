@@ -1,5 +1,5 @@
 import { Broadcast } from "@gramio/broadcast";
-import { bot } from "index.js";
+import { bot } from "../index.js";
 import { redis } from "../jobs/index.js";
 import { t } from "./locales/index.js";
 

@@ -8,6 +8,13 @@
       "when": 1733866206819,
       "tag": "0000_exotic_amazoness",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1734059969438,
+      "tag": "0001_equal_agent_zero",
+      "breakpoints": true
     }
   ]
 }

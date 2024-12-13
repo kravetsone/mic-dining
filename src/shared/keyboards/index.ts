@@ -1,6 +1,6 @@
 import { InlineKeyboard, Keyboard } from "gramio";
 import { DateTime } from "luxon";
-import { selectDate } from "shared/callback-data/index.js";
+import { selectDate } from "../callback-data/index.js";
 
 export const mainKeyboard = new Keyboard().text("Меню").text("Настройки");
 

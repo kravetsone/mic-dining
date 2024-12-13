@@ -1,13 +1,13 @@
-import { db } from "db/index.js";
-import { groupDiningTimesTable, menuTable } from "db/schema.js";
-import { takeFirstOrThrow, takeFirstOrUndefined } from "db/utils.js";
 import { and, eq, sql } from "drizzle-orm";
 import { MediaInput, code, format } from "gramio";
 import { DateTime } from "luxon";
-import { getDatePaginateKeyboard } from "shared/keyboards/index.js";
-import { t } from "shared/locales/index.js";
+import { db } from "../db/index.js";
+import { groupDiningTimesTable, menuTable } from "../db/schema.js";
+import { takeFirstOrThrow, takeFirstOrUndefined } from "../db/utils.js";
 import type { BotType } from "../index.js";
 import { selectDate } from "../shared/callback-data/index.js";
+import { getDatePaginateKeyboard } from "../shared/keyboards/index.js";
+import { t } from "../shared/locales/index.js";
 
 export default (bot: BotType) =>
 	bot.callbackQuery(selectDate, async (context) => {
