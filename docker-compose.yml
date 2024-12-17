@@ -24,9 +24,36 @@ services:
         restart: unless-stopped
         volumes:
             - redis_data:/data
+    dbgate:
+        container_name: market-dbgate
+        image: dbgate/dbgate
+        restart: unless-stopped
+        ports:
+            - 3000:3000
+        volumes:
+            - dbgate-data:/root/.dbgate
+        environment:
+            LOGIN: mic-dining
+            PASSWORD: superhardpass
+            CONNECTIONS: postgres,redis
+
+            # TODO: reuse from env file
+            LABEL_postgres: Postgres
+            SERVER_postgres: postgres
+            USER_postgres: mic-dining
+            DATABASE_postgres: mic-dining
+            PASSWORD_postgres: superhardpass
+            PORT_postgres: 5432
+            ENGINE_postgres: postgres@dbgate-plugin-postgres
+
+            LABEL_redis: Redis
+            SERVER_redis: redis
+            PORT_redis: 6379
+            ENGINE_redis: redis@dbgate-plugin-redis
 volumes:
     postgres_data_v2:
     redis_data:
+    dbgate-data:
 
 networks:
     default: {}
