@@ -15,6 +15,13 @@
       "when": 1734059969438,
       "tag": "0001_equal_agent_zero",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734399029367,
+      "tag": "0002_tricky_lady_ursula",
+      "breakpoints": true
     }
   ]
 }
