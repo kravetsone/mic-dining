@@ -25,17 +25,19 @@ export const bot = new Bot(process.env.BOT_TOKEN as string)
 	.on("message", async (context, next) => {
 		if (context.chat.type === "private") return next();
 
+		console.log("Chat:", context.chat);
+
 		let chat = await db
 			.select()
 			.from(chatsTable)
-			.where(eq(chatsTable.id, context.chatId))
+			.where(eq(chatsTable.id, context.chat.id))
 			.then(takeFirstOrUndefined);
 
 		if (!chat) {
 			chat = await db
 				.insert(chatsTable)
 				.values({
-					id: context.chatId,
+					id: context.chat.id,
 				})
 				.returning()
 				.then(takeFirstOrThrow);
