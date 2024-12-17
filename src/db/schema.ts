@@ -18,6 +18,10 @@ export const usersTable = pgTable("users", {
 	isNotificationEnabled: boolean().notNull().default(true),
 });
 
+export const chatsTable = pgTable("chats", {
+	id: bigint({ mode: "number" }).primaryKey().notNull(),
+});
+
 export const groupsTable = pgTable("groups", {
 	code: text().primaryKey().notNull(),
 });

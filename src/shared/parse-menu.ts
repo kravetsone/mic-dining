@@ -2,14 +2,15 @@ import { eq, inArray } from "drizzle-orm";
 import { DateTime } from "luxon";
 import { MIC_BASE_URL, config } from "../config.js";
 import { db } from "../db/index.js";
-import { menuTable, usersTable } from "../db/schema.js";
+import { chatsTable, menuTable, usersTable } from "../db/schema.js";
 import type { MenuDateParsed, MenuMicResponse } from "../types.js";
 import { broadcast } from "./broadcast.js";
 import { findDifference } from "./helpers.js";
 
 export async function parseMenu() {
+	console.log("start parse", new Date(), config.MIC_DINING_INFO_URL);
 	const response = await fetch(config.MIC_DINING_INFO_URL);
-
+	console.log(response);
 	const { data } = (await response.json()) as MenuMicResponse;
 
 	const menuFiles = data.folders.at(0)!.files;
@@ -30,7 +31,7 @@ export async function parseMenu() {
 			imageURL: `${MIC_BASE_URL}${menuFile.src}`,
 		});
 	}
-
+	console.log(results);
 	const existsMenus = await db
 		.select()
 		.from(menuTable)
@@ -64,10 +65,16 @@ export async function parseMenu() {
 		.from(usersTable)
 		.where(eq(usersTable.isNotificationEnabled, true));
 
+	const chats = await db
+		.select({
+			id: chatsTable.id,
+		})
+		.from(chatsTable);
+
 	for (const difference of differences) {
 		await broadcast.start(
 			"menu-updated",
-			users.map((x) => [
+			[...users, ...chats].map((x) => [
 				{
 					chatId: x.id,
 					photo: difference.imageURL,

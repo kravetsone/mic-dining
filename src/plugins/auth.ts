@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { Plugin } from "gramio";
 import { db } from "../db/index.js";
-import { usersTable } from "../db/schema.js";
+import { chatsTable, usersTable } from "../db/schema.js";
 import { takeFirstOrThrow, takeFirstOrUndefined } from "../db/utils.js";
 
 export const authPlugin = new Plugin("auth").derive(
